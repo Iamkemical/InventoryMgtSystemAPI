@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InventoryMgtSystemAPI.DatabaseContexts;
+using InventoryMgtSystemAPI.Repositories;
+using InventoryMgtSystemAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,6 +31,8 @@ namespace InventoryMgtSystemAPI
         {
             services.AddDbContextPool<InventoryDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("InventoryConnection")));
+
+            services.AddScoped<IInventoryRepo, InventoryService>();
 
             services.AddControllers();
         }
