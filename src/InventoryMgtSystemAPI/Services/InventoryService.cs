@@ -49,6 +49,13 @@ namespace InventoryMgtSystemAPI.Services
             return inventory;
         }
 
+        public void PartialUpdateInventory(InventoryModel model)
+        {
+            //DoNothing
+            // _inventoryDbContext.InventoryModel.Update(model);
+            // _inventoryDbContext.SaveChanges();
+        }
+
         public bool SaveChanges()
         {
             return (_inventoryDbContext.SaveChanges() >0);
@@ -59,7 +66,7 @@ namespace InventoryMgtSystemAPI.Services
             var inventory = _inventoryDbContext.InventoryModel.Find(id);
             if(model is null)
             {
-                throw new ArgumentNullException(message:"The inventory you're in search of does not exist in the database or has been deleted", null);
+                throw new ArgumentNullException(message:"The inventory you're trying to update does not exist in the database or has been deleted", null);
             }
             if(inventory != model)
             {

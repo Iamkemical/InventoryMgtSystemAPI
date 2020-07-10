@@ -9,6 +9,7 @@ namespace InventoryMgtSystemAPI.Repositories
         InventoryModel GetInventoryById(int id);
         void CreateInventory(InventoryModel model);
         InventoryModel UpdateInventory(int id, InventoryModel model);
+        void PartialUpdateInventory(InventoryModel model);
         void DeleteInventory(int id);
         bool SaveChanges();
     }

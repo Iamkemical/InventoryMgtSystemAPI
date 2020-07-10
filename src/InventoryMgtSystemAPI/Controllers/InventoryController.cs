@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using InventoryMgtSystemAPI.Models;
 using InventoryMgtSystemAPI.Repositories;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InventoryMgtSystemAPI.Controllers {
@@ -82,9 +83,34 @@ namespace InventoryMgtSystemAPI.Controllers {
             }
         }
 
-        // //PATCH api/controller/{id}
-        // [HttpPatch("{id}")]
-        // public ActionResult<InventoryModel> PartialUpdateInventory()
+        //PATCH api/controller/{id}
+        [HttpPatch("{id}")]
+        public ActionResult PartialUpdateInventory(int id, 
+        JsonPatchDocument<InventoryModel> patchDoc)
+        {
+            try
+            {
+                var inventory = _inventoryRepo.GetInventoryById(id);
+                if(inventory is null)
+                {
+                    return NotFound(nameof(inventory));
+                }
+                patchDoc.ApplyTo(inventory);
+                if(!TryValidateModel(inventory))
+                {
+                    return ValidationProblem(ModelState);
+                }
+                _inventoryRepo.PartialUpdateInventory(inventory);
+                _inventoryRepo.SaveChanges();
+
+                return NoContent();
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
+        }
 
     }
 }
