@@ -14,6 +14,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.Swagger;
+using InventoryMgtSystemAPI.Options;
+using Microsoft.OpenApi.Models;
 
 namespace InventoryMgtSystemAPI
 {
@@ -34,6 +37,11 @@ namespace InventoryMgtSystemAPI
 
             services.AddScoped<IInventoryRepo, InventoryService>();
 
+            services.AddSwaggerGen(opt =>
+            {
+                opt.SwaggerDoc("v1", new OpenApiInfo{Title = "Inventory Mgt API", Version = "v1"});
+            });
+
             services.AddControllers().AddNewtonsoftJson();
         }
 
@@ -44,6 +52,19 @@ namespace InventoryMgtSystemAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            var swaggerOptions = new SwaggerOption();
+            Configuration.GetSection(nameof(SwaggerOptions)).Bind(swaggerOptions);
+
+            app.UseSwagger(options =>
+            {
+                options.RouteTemplate = swaggerOptions.JsonRoute;
+            });
+
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint(swaggerOptions.UIEndpoint, swaggerOptions.Description);
+            });
 
             app.UseHttpsRedirection();
 
