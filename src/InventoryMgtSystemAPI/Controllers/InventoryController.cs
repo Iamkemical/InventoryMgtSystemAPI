@@ -61,9 +61,17 @@ namespace InventoryMgtSystemAPI.Controllers {
         [HttpDelete ("{id}")]
         public ActionResult DeleteInventory (int id) 
         {
-            _inventoryRepo.DeleteInventory (id);
-            _inventoryRepo.SaveChanges ();
-            return NoContent ();
+            try 
+            {
+                _inventoryRepo.DeleteInventory (id);
+                _inventoryRepo.SaveChanges ();
+                return NoContent ();
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
         }
 
         //PUT api/controller/{id}
