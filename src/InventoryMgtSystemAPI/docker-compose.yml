@@ -4,14 +4,11 @@ version: '3.4'
 networks:
     inventory-mgt-system-net:
 
-volumes:
-    mssql-server-linux-data:
-
 services: 
     inventory-mgt-system-api:
         build:
             context: .
-            dockerfile: Dockerfile
+            dockerfile: DockerFile
         container_name: inventory-mgt-system-api
         restart: always
         ports:
@@ -28,10 +25,9 @@ services:
         image: mcr.microsoft.com/mssql/server
         container_name: sql-server
         environment:
-            SA_PASSWORD: "Stron9Pa55word"
+            SA_PASSWORD: "Stron9pa55word"
             ACCEPT_EULA: "Y"
-        volumes:
-            - mssql-server-linux-data:/var/opt/mssql/data
+
         networks:
             - inventory-mgt-system-net
 

@@ -3,11 +3,12 @@ WORKDIR /app
 EXPOSE 5000
 EXPOSE 5001
 
+
 WORKDIR /app/InventoryMgtSystemAPI
-COPY InventoryMgtSystemAPI/*.csproj .
+COPY /*.csproj .
 RUN dotnet restore 
 
-COPY InventoryMgtSystemAPI/ .
+COPY . ./
 
 RUN dotnet publish -c Release -o out
 

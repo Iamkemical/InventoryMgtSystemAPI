@@ -6,7 +6,7 @@ services:
     image: inventorymgtsystem
     build:
       context: .
-      dockerfile: src/InventoryMgtSystemAPI/Dockerfile
+      dockerfile: src/InventoryMgtSystemAPI/DockerFile
     ports:
       - 80
     environment:
